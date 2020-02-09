@@ -1,15 +1,14 @@
 package com.csv.om;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.format;
-
 class CachedCSVClassParser implements CSVClassParser{
 
-    private static final Logger log = Logger.getLogger(CachedCSVClassParser.class);
+    private static final Logger log = LogManager.getLogger(CachedCSVClassParser.class);
 
     private final CSVBeanParserFactory beanParserFactory;
     private final Map<Class<?>, CSVBeanMetadata<?>> parsedClasses;
@@ -33,7 +32,7 @@ class CachedCSVClassParser implements CSVClassParser{
                 if (parsedCSVValue == null) {
                     parsedCSVValue = parseClass(beanClass);
 
-                    log.debug(format("Cache parsed csv class %s", beanClass.getName()));
+                    log.debug("Cache parsed csv class {}", beanClass.getName());
                     parsedClasses.put(beanClass, parsedCSVValue);
                 }
             }

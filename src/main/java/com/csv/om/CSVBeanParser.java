@@ -1,16 +1,19 @@
 package com.csv.om;
 
 import com.csv.om.annotations.CSVAccess;
-import com.csv.om.annotations.enums.CSVAccessType;
 import com.csv.om.annotations.CSVTable;
-import org.apache.log4j.Logger;
+import com.csv.om.annotations.enums.CSVAccessType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.IntrospectionException;
 import java.util.List;
 
+
+
 class CSVBeanParser<T> {
 
-    private static final Logger log = Logger.getLogger(CSVBeanParser.class);
+    private static final Logger log = LogManager.getLogger(CSVBeanParser.class);
     private static final CSVAccessType DEFAULT_ACCESS_TYPE = CSVAccessType.FIELD;
 
 
@@ -24,7 +27,7 @@ class CSVBeanParser<T> {
     }
 
     CSVBeanMetadata<T> parseValue() {
-        log.debug(String.format("Parse class %s", beanClass.getName()));
+        log.debug("Parse class {}", beanClass.getName());
 
         final CSVBeanMetadata<T> csvBeanMetadata = new CSVBeanMetadata<>();
 

@@ -1,16 +1,17 @@
 package com.csv.om;
 
 import org.apache.commons.csv.CSVPrinter;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import java.util.stream.Collectors;
 
 public class CSVWriterImpl<T> implements CSVWriter<T> {
 
-    private static final Logger log = Logger.getLogger(CSVWriterImpl.class.getName());
+    private static final Logger log = LogManager.getLogger(CSVWriterImpl.class);
 
     private final CSVPrinter printer;
     private final CSVBeanMetadata<T> beanMetadata;

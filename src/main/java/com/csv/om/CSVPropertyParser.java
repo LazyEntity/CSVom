@@ -3,7 +3,8 @@ package com.csv.om;
 import com.csv.om.annotations.CSVColumn;
 import com.csv.om.annotations.CSVConvert;
 import com.csv.om.annotations.enums.CSVAccessType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
 
 class CSVPropertyParser<T> {
 
-    private static final Logger log = Logger.getLogger(CSVPropertyParser.class);
+    private static final Logger log = LogManager.getLogger(CSVPropertyParser.class);
 
 
     private Class<T> beanClass;
@@ -50,7 +51,7 @@ class CSVPropertyParser<T> {
         csvProperty.setHeaderName(getHeaderName(accessibleObject));
         csvProperty.setPropertyConverter(value -> convertProperty(accessibleObject, value));
 
-        log.debug(String.format("Created cvs property: %s for class %s", csvProperty, beanClass));
+        log.debug("Created cvs property: {} for class {}", csvProperty, beanClass);
         return csvProperty;
     }
 
