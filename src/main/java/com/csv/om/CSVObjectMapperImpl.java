@@ -37,7 +37,7 @@ public class CSVObjectMapperImpl implements CSVObjectMapper{
 
     @Override
     public <T> CSVWriter<T> getCSVWriter(Writer writer, Class<T> valueClass) throws IOException {
-        log.debug(String.format("Create writer for class %s", valueClass.getName()));
+        log.debug("Create writer for class {}", valueClass.getName());
         CSVBeanMetadata<T> parsedCSVValue = parser.getParsedCSVClass(valueClass);
         return writerFactory.newInstance(writer, parsedCSVValue);
     }
