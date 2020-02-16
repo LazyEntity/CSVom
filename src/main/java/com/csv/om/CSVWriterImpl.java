@@ -1,29 +1,26 @@
 package com.csv.om;
 
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import java.util.stream.Collectors;
 
 public class CSVWriterImpl<T> implements CSVWriter<T> {
 
     private static final Logger log = LogManager.getLogger(CSVWriterImpl.class);
 
     private final CSVPrinter printer;
-    private final CSVBeanMetadata<T> beanMetadata;
 
-    CSVWriterImpl(Writer writer, CSVBeanMetadata<T> beanMetadata) throws IOException {
-        final CSVFormatAdapter formatAdapter = beanMetadata.getFormatAdapter();
+    private final CSVBeanReader<T> beanReader;
 
-        this.beanMetadata = beanMetadata;
-        this.printer = new CSVPrinter(writer, formatAdapter.getFormat());
+    CSVWriterImpl(CSVBeanReader<T> beanReader, CSVPrinter printer) throws IOException {
+        this.beanReader = beanReader;
+        this.printer = printer;
 
-        if (beanMetadata.isWriteHeader()) {
-            addHeader(printer, beanMetadata);
+        if (beanReader.isWriteHeader()) {
+            writeHeader();
         }
     }
 
@@ -33,16 +30,15 @@ public class CSVWriterImpl<T> implements CSVWriter<T> {
      * It should be executed before {{@link #write )}} methods
      * to be correct written to the top of csv file
      */
-    private static <T> void addHeader(CSVPrinter printer, CSVBeanMetadata<T> CSVBeanMetadata) throws IOException {
-        List<String> headers = CSVBeanMetadata.getProperties()
-                .stream().map(CSVPropertyMetadata::getHeaderName)
-                .collect(Collectors.toList());
-
-        printer.printRecord(headers);
+    private void writeHeader() throws IOException {
+        log.debug("Write header for class {}", beanReader.getBeanClass().getName());
+        List<String> header = beanReader.getHeader();
+        printer.printRecord(header);
     }
 
     @Override
     public void writeAll(Iterable<T> values) throws IOException {
+        log.debug("Write all values for class {}", beanReader.getBeanClass().getName());
         for (T value : values) {
             write(value);
         }
@@ -50,26 +46,13 @@ public class CSVWriterImpl<T> implements CSVWriter<T> {
 
     @Override
     public void write(T value) throws IOException {
-        List<CSVPropertyMetadata<T>> properties = beanMetadata.getProperties();
-        List<Object> csvValue = properties.stream().map(property -> getPropertyValue(value, property))
-                .collect(Collectors.toList());
-        printer.printRecord(csvValue);
-    }
-
-    private String getPropertyValue(T entity, CSVPropertyMetadata<T> property) {
-        return property.getPropertyConverter().apply(entity);
+        List<String> row = beanReader.mapToRow(value);
+        printer.printRecord(row);
     }
 
     @Override
     public void close() throws IOException {
+        log.debug("Close CSV writer for class {}", beanReader.getBeanClass().getName());
         printer.close();
-    }
-
-    public CSVPrinter getPrinter() {
-        return printer;
-    }
-
-    CSVBeanMetadata<T> getBeanMetadata() {
-        return beanMetadata;
     }
 }

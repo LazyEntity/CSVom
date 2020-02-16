@@ -26,10 +26,10 @@ class CSVBeanParser<T> {
         this.defaultFormat = defaultFormatAdapter;
     }
 
-    CSVBeanMetadata<T> parseValue() {
+    CSVBeanMetadata<T> parseBean() {
         log.debug("Parse class {}", beanClass.getName());
 
-        final CSVBeanMetadata<T> csvBeanMetadata = new CSVBeanMetadata<>();
+        final CSVBeanMetadata<T> csvBeanMetadata = new CSVBeanMetadata<>(beanClass);
 
         putFromCSVTable(csvBeanMetadata);
 

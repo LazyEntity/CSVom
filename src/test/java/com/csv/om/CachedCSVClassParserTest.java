@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CacheCSVClassParserTest {
+public class CachedCSVClassParserTest {
 
     private static class Person {
     }
@@ -36,7 +36,7 @@ public class CacheCSVClassParserTest {
         when(parsedClasses.get(any())).thenReturn(null);
         when(beanParserFactory.newInstance(Person.class)).thenReturn(beanParser);
 
-        when(beanParser.parseValue()).thenReturn(beanMetadata);
+        when(beanParser.parseBean()).thenReturn(beanMetadata);
 
         // call
         CSVBeanMetadata<Person> parsedMetadata = parser.getParsedCSVClass(Person.class);

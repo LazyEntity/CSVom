@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * There is core a class, that write objects to cvs format file
- * Object of {@link CSVWriterImpl} type can be obtained using {@link CSVObjectMapperImpl#getCSVWriter}
+ * Object of {@link CSVWriterImpl} type can be obtained using {@link CSVObjectMapperImpl#createCSVWriter}
  *
  * @param <T> type of objects that will be converted to csv
  */

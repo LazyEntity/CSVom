@@ -3,6 +3,7 @@ package com.csv.om;
 import com.csv.om.annotations.CSVCollection;
 import com.csv.om.annotations.CSVConvert;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -25,7 +26,7 @@ public class CSVCollectionConverter implements AnnotationCSVConverter<Collection
             while (iterator.hasNext()) {
                 final Object element = iterator.next();
                 // TODO вероятно дубирование
-                final String stringElement = elementConverter.toCSVColumn(element, CSVConvert.class.newInstance());
+                final String stringElement = elementConverter.toCSVColumn(element, CSVConvert.class.getDeclaredConstructor().newInstance());
 
                 builder.append(stringElement);
 
@@ -37,7 +38,7 @@ public class CSVCollectionConverter implements AnnotationCSVConverter<Collection
             builder.append(annotation.suffix());
             return builder.toString();
 
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new CSVException(String.format("Cant create %s instance", converterClass.getName()), e);
         }
     }

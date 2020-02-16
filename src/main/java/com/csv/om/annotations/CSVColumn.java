@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 public @interface CSVColumn {
 
-    String DEFAULT_NAME = "${fieldName}";
+    String DEFAULT_NAME = "___defaultName___";
 
     /**
      * Name of csv column

@@ -12,5 +12,5 @@ public interface CSVObjectMapper {
                          Iterable<T> values,
                          Class<T> valueClass);
 
-    <T> CSVWriter<T> getCSVWriter(Writer writer, Class<T> valueClass) throws IOException;
+    <T> CSVWriter<T> createCSVWriter(Writer writer, Class<T> valueClass) throws IOException;
 }

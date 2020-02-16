@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
  * Used to specify an access type to be applied to an entity class
  * By default is used field-based access
  */
+// TODO выпилить его, усложняет он все
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface CSVAccess {

@@ -4,6 +4,8 @@ import java.util.List;
 
 class CSVBeanMetadata<T> {
 
+    private Class<T> beanClass;
+
     private boolean isWriteHeader;
 
     private CSVFormatAdapter formatAdapter;
@@ -11,6 +13,10 @@ class CSVBeanMetadata<T> {
     private List<CSVPropertyMetadata<T>> properties;
 
     CSVBeanMetadata() {
+    }
+
+    CSVBeanMetadata(Class<T> beanClass) {
+        this.beanClass = beanClass;
     }
 
     boolean isWriteHeader() {
@@ -35,5 +41,13 @@ class CSVBeanMetadata<T> {
 
     void setFormatAdapter(CSVFormatAdapter formatAdapter) {
         this.formatAdapter = formatAdapter;
+    }
+
+    public Class<T> getBeanClass() {
+        return beanClass;
+    }
+
+    public void setBeanClass(Class<T> beanClass) {
+        this.beanClass = beanClass;
     }
 }
